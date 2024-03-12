@@ -18,14 +18,22 @@ class CachedSoupProvider(SoupProvider):
         file = self.__url_to_file(url)
         if file.exists():
             print(f"Reading HTML from file {file.absolute()}")
-            with open(file, "r") as reader:
-                html = reader.read()
+            try:
+                with open(file, "r") as reader:
+                    html = reader.read()
+            except UnicodeDecodeError:
+                with open(file, "r", encoding="utf-8") as reader:
+                    html = reader.read()
             return BeautifulSoup(html, "html.parser")
         else:
             print(f"Downloading HTML from {url} and saving it into file {file.absolute()}")
             html = self.__download_html_from_web(url, headers)
-            with open(file, "w") as writer:
-                writer.write(html)
+            try:
+                with open(file, "w") as writer:
+                    writer.write(html)
+            except UnicodeDecodeError:
+                with open(file, "w", encoding="utf-8") as writer:
+                    writer.write(html)
             return BeautifulSoup(html, 'html.parser')
 
     @staticmethod

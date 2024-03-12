@@ -1,11 +1,14 @@
 from article import Article
+from implementations.cnnscraper import CnnScraper
 from implementations.nytscraper import NytScraper
+from implementations.washingtonpostscraper import WashingtonPostScraper
 from sourceproviders.cachedsoupprovider import CachedSoupProvider
 
 
 def do_stuff():
-    scraper = NytScraper(CachedSoupProvider())
-    article: Article = scraper.process("https://www.nytimes.com/2020/09/02/opinion/remote-learning-coronavirus.html?action=click&module=Opinion&pgtype=Homepage")
+    url = "https://edition.cnn.com/travel/article/scenic-airport-landings-2020/index.html"
+    scraper = CnnScraper(CachedSoupProvider())
+    article: Article = scraper.process(url)
     print(article.body)
 
 
