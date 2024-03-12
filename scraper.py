@@ -1,4 +1,5 @@
 from http.client import HTTPResponse
+from typing import TypeVar, Generic
 from urllib.parse import ParseResult, urlparse
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
@@ -7,7 +8,10 @@ from abc import ABC, abstractmethod
 from sourceproviders.soupprovider import SoupProvider
 
 
-class Scraper(ABC):
+T = TypeVar("T")
+
+
+class Scraper(Generic[T], ABC):
 
     def __init__(self, soup_provider: SoupProvider):
         self.soup_provider = soup_provider
@@ -29,10 +33,10 @@ class Scraper(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def extract(self, soup: BeautifulSoup) -> str:
+    def extract(self, soup: BeautifulSoup) -> T:
         raise NotImplementedError
 
-    def process(self, url: str) -> str:
+    def process(self, url: str) -> T:
         if not self.can_process_url(urlparse(url)):
             raise ValueError("URL cannot be processed.")
         return self.extract(self.soup_provider.get_soup(url, self.get_headers()))
