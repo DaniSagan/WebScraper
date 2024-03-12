@@ -1,23 +1,31 @@
 from http.client import HTTPResponse
-from urllib.request import urlopen
+from urllib.parse import ParseResult, urlparse
+from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from abc import ABC, abstractmethod
 
+from sourceproviders.soupprovider import SoupProvider
+
 
 class Scraper(ABC):
-    def __init__(self):
-        pass
 
-    @staticmethod
-    def __get_source(url: str) -> BeautifulSoup:
-        page: HTTPResponse = urlopen(url)
+    def __init__(self, soup_provider: SoupProvider):
+        self.soup_provider = soup_provider
+
+    def __get_source(self, url: str) -> BeautifulSoup:
+        request = Request(url, data=None, headers=self.get_headers())
+        page: HTTPResponse = urlopen(request)
         html_bytes: bytes = page.read()
         html: str = html_bytes.decode("utf-8")
         soup: BeautifulSoup = BeautifulSoup(html, "html.parser")
         return soup
 
+    @staticmethod
+    def get_headers() -> {}:
+        return {'User-Agent': 'MyApp/1.0'}
+
     @abstractmethod
-    def can_process_url(self, url: str) -> bool:
+    def can_process_url(self, url: ParseResult) -> bool:
         raise NotImplementedError
 
     @abstractmethod
@@ -25,6 +33,6 @@ class Scraper(ABC):
         raise NotImplementedError
 
     def process(self, url: str) -> str:
-        if not self.can_process_url(url):
+        if not self.can_process_url(urlparse(url)):
             raise ValueError("URL cannot be processed.")
-        return self.extract(self.__get_source(url))
+        return self.extract(self.soup_provider.get_soup(url, self.get_headers()))
