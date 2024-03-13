@@ -12,18 +12,23 @@ from sourceproviders.cachedsoupprovider import CachedSoupProvider
 def create_article_scraper_pool() -> ScraperPool[Article]:
     soup_provider = CachedSoupProvider()
     scraper_pool = ScraperPool[Article]()
-    scraper_pool.register(NytScraper(soup_provider))
-    scraper_pool.register(WashingtonPostScraper(soup_provider))
-    scraper_pool.register(CnnScraper(soup_provider))
-    scraper_pool.register(ReutersScraper(soup_provider))
+    scraper_pool.register_scrapers([
+        NytScraper(soup_provider),
+        WashingtonPostScraper(soup_provider),
+        CnnScraper(soup_provider),
+        ReutersScraper(soup_provider)
+    ])
     return scraper_pool
 
 
 def main():
-    url = "https://www.reuters.com/technology/us-house-vote-force-bytedance-divest-tiktok-or-face-ban-2024-03-13/"
+    url = "https://www.washingtonpost.com/technology/2020/09/25/privacy-check-blacklight/"
     scraper_pool = create_article_scraper_pool()
     article: Optional[Article] = scraper_pool.process(url)
     if article:
+        print('—' * len(article.title))
+        print(article.title)
+        print('—'*len(article.title))
         print(article.body)
     else:
         print("Could not parse URL. No valid scraper was found.")

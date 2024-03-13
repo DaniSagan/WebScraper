@@ -1,7 +1,8 @@
 import gzip
 import hashlib
 import pathlib
-from http.client import HTTPResponse
+import urllib
+from http.cookiejar import CookieJar
 from urllib.request import Request, urlopen
 
 from bs4 import BeautifulSoup
@@ -40,7 +41,9 @@ class CachedSoupProvider(SoupProvider):
     @staticmethod
     def __download_html_from_web(url: str, headers: {}) -> str:
         request = Request(url, data=None, headers=headers)
-        page: HTTPResponse = urlopen(request)
+        cookie_jar = CookieJar()
+        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
+        page = opener.open(request)
         html_bytes: bytes = page.read()
         encoding = page.info()['content-encoding']
         if encoding == 'gzip':
