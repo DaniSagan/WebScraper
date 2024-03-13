@@ -1,3 +1,4 @@
+import gzip
 import hashlib
 import pathlib
 from http.client import HTTPResponse
@@ -41,7 +42,11 @@ class CachedSoupProvider(SoupProvider):
         request = Request(url, data=None, headers=headers)
         page: HTTPResponse = urlopen(request)
         html_bytes: bytes = page.read()
-        html: str = html_bytes.decode("utf-8")
+        encoding = page.info()['content-encoding']
+        if encoding == 'gzip':
+            html: str = gzip.decompress(html_bytes).decode("utf-8")
+        else:
+            html: str = html_bytes.decode("utf-8")
         return html
 
     def __url_to_file(self, url: str) -> pathlib.Path:

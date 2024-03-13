@@ -3,6 +3,7 @@ from typing import Optional
 from article import Article
 from implementations.cnnscraper import CnnScraper
 from implementations.nytscraper import NytScraper
+from implementations.reutersscraper import ReutersScraper
 from implementations.washingtonpostscraper import WashingtonPostScraper
 from scraperpool import ScraperPool
 from sourceproviders.cachedsoupprovider import CachedSoupProvider
@@ -14,6 +15,7 @@ def create_article_scraper_pool() -> ScraperPool[Article]:
     scraper_pool.register(NytScraper(soup_provider))
     scraper_pool.register(WashingtonPostScraper(soup_provider))
     scraper_pool.register(CnnScraper(soup_provider))
+    scraper_pool.register(ReutersScraper(soup_provider))
     return scraper_pool
 
 
