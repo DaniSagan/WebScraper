@@ -21,5 +21,5 @@ class NytScraper(Scraper[Article]):
         return Article(
             title=title,
             summary=summary,
-            body='\n'.join(article_body),
+            body='\n\n'.join(article_body),
             update_date=None)
