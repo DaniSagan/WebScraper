@@ -26,10 +26,19 @@ class Scraper(Generic[T], ABC):
 
     @staticmethod
     def get_headers() -> {}:
+        """
+        Returns the headers to use when requesting the web site.
+        :return:
+        """
         return {'User-Agent': 'MyApp/1.0'}
 
     @abstractmethod
     def can_process_url(self, url: ParseResult) -> bool:
+        """
+        Returns True if the scraper can process the URL.
+        :param url: URL of the web page to process.
+        :return: True if the scraper can process the web page.
+        """
         raise NotImplementedError
 
     @abstractmethod
