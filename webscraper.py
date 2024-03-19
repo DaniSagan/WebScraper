@@ -1,3 +1,4 @@
+from argparse import ArgumentParser
 from typing import Optional
 
 from article import Article
@@ -21,8 +22,19 @@ def create_article_scraper_pool() -> ScraperPool[Article]:
     return scraper_pool
 
 
+def create_parser() -> ArgumentParser:
+    parser = ArgumentParser(
+        prog='WebScraper',
+        description='A python web scraper',
+        epilog='Text at the bottom of help')
+    parser.add_argument('url')
+    return parser
+
+
 def main():
-    url = "https://www.washingtonpost.com/technology/2020/09/25/privacy-check-blacklight/"
+    parser = create_parser()
+    args = parser.parse_args()
+    url = args.url # "https://www.elcomercio.es/oviedo/bulevar-vega-llenara-vida-fabrica-armas-dara-20240316233125-nt.html"
     scraper_pool = create_article_scraper_pool()
     article: Optional[Article] = scraper_pool.process(url)
     if article:
