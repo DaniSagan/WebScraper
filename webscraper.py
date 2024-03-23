@@ -1,10 +1,11 @@
 from argparse import ArgumentParser, Namespace
 
 from article import Article
-from implementations.cnnscraper import CnnScraper
-from implementations.nytscraper import NytScraper
-from implementations.reutersscraper import ReutersScraper
-from implementations.washingtonpostscraper import WashingtonPostScraper
+from presenters.articledatepresenter import ArticleDatePresenter
+from scraperimplementations.cnnscraper import CnnScraper
+from scraperimplementations.nytscraper import NytScraper
+from scraperimplementations.reutersscraper import ReutersScraper
+from scraperimplementations.washingtonpostscraper import WashingtonPostScraper
 from abstract.scraperpool import ScraperPool
 from presenters.fullarticlepresenter import FullArticlePresenter
 from presenters.articletitlepresenter import ArticleTitlePresenter
@@ -32,7 +33,8 @@ class WebScraper:
         }
         self.presenters = {
             'fullarticle': FullArticlePresenter(),
-            'title': ArticleTitlePresenter()
+            'title': ArticleTitlePresenter(),
+            'date': ArticleDatePresenter()
         }
         self.settings: WebScraperSettings = WebScraperSettings()
 

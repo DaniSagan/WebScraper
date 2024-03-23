@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 from urllib.parse import ParseResult
 
@@ -18,8 +19,9 @@ class NytScraper(Scraper[Article]):
         title = header.find("h1", attrs={"data-testid": "headline"}).text
         summary = header.find("p", attrs={"id": "article-summary"}).text
         article_body: List[str] = list(map(lambda p: p.text, article.findAll("p", "css-at9mc1")))
+        update_date: datetime.datetime = datetime.datetime.fromisoformat(header.find("time")["datetime"])
         return Article(
             title=title,
             summary=summary,
             body='\n\n'.join(article_body),
-            update_date=None)
+            update_date=update_date)
