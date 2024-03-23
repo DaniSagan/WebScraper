@@ -6,8 +6,7 @@ This is an implementation following the requirements from [Web scraper to get ne
 
 ## Features
 
-- Scrapes news article headlines and content from multiple websites.
-- Provides the option to specify the website URL for scraping.
+- Scrapes content from the specified URL. So far it works on articles for some news websites.
 - Outputs the extracted data in a structured format.
 
 ## Installation
@@ -33,6 +32,12 @@ python webscraper.py <url>
 ```
 
 Once the scraping process is complete, the extracted headlines and content will be displayed.
+
+Other scraping options can be checked using the help command:
+
+```bash
+python webscraper.py -h
+```
 
 ## Dependencies
 
