@@ -1,7 +1,7 @@
 from typing import List, TypeVar, Generic, Optional, Iterable
 from urllib.parse import urlparse
 
-from scraper import Scraper
+from abstract.scraper import Scraper
 
 
 T = TypeVar("T")

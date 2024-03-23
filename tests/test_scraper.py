@@ -5,7 +5,7 @@ from urllib.parse import ParseResult
 from bs4 import BeautifulSoup
 
 from article import Article
-from scraper import Scraper, T
+from abstract.scraper import Scraper, T
 from sourceproviders.soupprovider import SoupProvider
 
 

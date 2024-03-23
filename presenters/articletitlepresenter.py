@@ -2,9 +2,7 @@ from article import Article
 from abstract.presenterbase import PresenterBase
 
 
-class FullArticlePresenter(PresenterBase[Article]):
+class ArticleTitlePresenter(PresenterBase[Article]):
     def present(self, obj: Article) -> str:
         res: str = obj.title
-        res += '-' * min(len(obj.title), 30)
-        res += obj.body
         return res

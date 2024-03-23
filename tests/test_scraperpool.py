@@ -3,8 +3,8 @@ from urllib.parse import ParseResult
 
 from bs4 import BeautifulSoup
 
-from scraper import Scraper
-from scraperpool import ScraperPool
+from abstract.scraper import Scraper
+from abstract.scraperpool import ScraperPool
 from sourceproviders.soupprovider import SoupProvider
 
 
